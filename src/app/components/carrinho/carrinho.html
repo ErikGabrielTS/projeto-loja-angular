@@ -1,1 +1,44 @@
-<p>carrinho works!</p>
+<div id="carrinho">
+            <h2>Carrinho</h2>
+
+          <div id="itens-carrinho">
+            @for (elem of listaProdutos(); track elem.idproduto){
+              <span class="dados-produtos">
+                          {{elem.idproduto}} - {{elem.produto}} - {{descricao_produto}} - {{valor_unitario}} - {{elem.unidade}} - {{elem.estoque}}
+              </span>
+              <span class="links-lista">
+                <a class="lnk-excluir" (click)="excluirProduto(elem)"> Excluir </a>
+            </span>
+                
+            }@empty{
+              <div class="div-item-produto">
+                NENHUM PRODUTO NO CARRINHO
+              </div>
+            }
+            
+          </div>
+        
+        <!-- <div id="valores-carrinho">
+
+            <div id="div-cep">
+                <h2 class="titulo-valores-carrinho">CEP</h2>
+                <div id="input-cep"><input type="text" name="input-cep" id="input-cep" class="input-cep"></div>
+            </div>
+
+            <div id="div-calc-valor">
+                <h2 class="titulo-valores-carrinho">Valor Total</h2>
+                <p id="valor-total" class="valor">R$ 100,00</p>
+
+                <h2 class="titulo-valores-carrinho">Valor Frete</h2>
+                <p id="valor-total" class="valor">R$ 10,00</p>
+            </div>
+
+            <div id="div-calc-valor-pagar">
+                <h2 class="titulo-valores-carrinho">Total a Pagar</h2>
+                <p id="valor-Pagar" class="valor">R$ 100,00</p>
+            </div>
+
+            <button id="btn-continuar" class="btn-carrinho">Continuar Compra</button>
+            <button id="btn-finalizar" class="btn-carrinho">Finalizar Compra</button>
+        </div> -->
+</div>

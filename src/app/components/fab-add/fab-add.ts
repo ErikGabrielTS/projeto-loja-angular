@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
-import { ModalForm } from '../modal-form/modal-form';
 
 @Component({
   selector: 'app-fab-add',
-  imports: [ModalForm],
+  imports: [],
   templateUrl: './fab-add.html',
   styleUrl: './fab-add.css',
 })

@@ -1,10 +1,10 @@
 import { Component, signal } from '@angular/core';
 import { Router } from '@angular/router';
 
-
 import { ProdutoService } from '../../services/produto-service';
 import { Produto } from '../../types/produto';
 import { CarrinhoService } from '../../services/carrinho-service';
+import { ToastService } from '../../services/toast-service';
 
 @Component({
   selector: 'app-lista-produto',
@@ -18,22 +18,24 @@ export class ListaProduto {
   constructor(
     private router: Router,
     private produtoService: ProdutoService,
-    private carrinhoService: CarrinhoService
+    private carrinhoService: CarrinhoService,
+    private toastService: ToastService,
   ) {}
 
   ngOnInit() {
     this.listarProdutos();
   }
 
-  adicionarProduto(produto : Produto){
-     this.carrinhoService.adicionarAoCarrinho(produto);
+  adicionarProduto(produto: Produto) {
+    this.carrinhoService.adicionarAoCarrinho(produto);
+    this.toastService.show('Produto adicionado ao carrinho!');
   }
 
   listarProdutos() {
     this.produtoService.listarProdutos().subscribe({
       next: (dados) => {
         this.listaProdutos.set(
-          [...dados].sort((a, b) => (a.produto || '').localeCompare(b.produto || ''))
+          [...dados].sort((a, b) => (a.produto || '').localeCompare(b.produto || '')),
         );
       },
       error: (msgErro) => {
@@ -47,7 +49,7 @@ export class ListaProduto {
       this.produtoService.excluirProduto(produto).subscribe({
         next: (dados) => {
           this.listaProdutos.update((elem) =>
-            elem.filter((item) => item.idproduto !== produto.idproduto)
+            elem.filter((item) => item.idproduto !== produto.idproduto),
           );
 
           console.log('Produto excluído com sucesso ', dados);
@@ -67,4 +69,3 @@ export class ListaProduto {
     this.router.navigate(['/home']);
   }
 }
-

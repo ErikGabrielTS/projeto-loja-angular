@@ -1,1 +1,86 @@
-<p>monta-resumo-compra works!</p>
+<!-- <div class="card-resumo">
+    <h3>Resumo do Pedido</h3>
+
+    <div class="campo-frete">
+        <label for="cep"> Calcular Frete (CEP): </label>
+        <div class="input-container">
+            <input 
+            type="text"
+            id="cep"
+            [(ngModel)]="cep"
+            placeholder="00000-000"
+            maxlength="9"
+            >
+
+            <button (click)="calcularFrete()" [disabled]="carregandoFrete">
+                {{ carregandoFrete ? 'Buscando...' : 'Calcular' }}
+            </button>
+        </div>
+    </div>
+
+</div> -->
+
+<div class="card-resumo">
+    <h2>Resumo da Compra</h2>
+  
+    <!-- Cálculo de Frete -->
+    <div class="secao-frete">
+      <label for="cep">Calcular Frete:</label>
+      <div class="input-grupo">
+        <!-- <input 
+          type="text" 
+          id="cep" 
+          /* [(ngModel)]="cep"  */
+          placeholder="00000-000" 
+          maxlength="9"
+        > -->
+        <input 
+          type="text" 
+          id="cep" 
+          placeholder="00000-000" 
+          maxlength="9"
+        >
+  
+        <button (click)="calcularFrete()" [disabled]="carregandoFrete">
+          {{ carregandoFrete ? '...' : 'OK' }}
+        </button>
+      </div>
+      
+      <!-- <small *ngIf="erroFrete" class="mensagem-erro">{{ erroFrete }}</small>
+      <small *ngIf="freteCalculado" class="mensagem-sucesso">Entrega para: {{ cidadeEstado }}</small> -->
+    </div>
+  
+    <hr />
+  
+    <!-- Detalhamento de Itens e Valores -->
+    <div class="linha-resumo">
+      <span>Quantidade de itens:</span>
+      <span>{{ carrinhoService.tamanhoArray() }}</span>
+    </div>
+  <!-- 
+    <div class="linha-resumo">
+      <span>Subtotal:</span>
+      <span>{{ carrinhoService.obterSubtotal() | currency:'BRL' }}</span>
+    </div> -->
+  
+    <div class="linha-resumo">
+      <span>Frete:</span>
+      <!-- <span *ngIf="freteCalculado">{{ valorFrete | currency:'BRL' }}</span>
+      <span *ngIf="!freteCalculado" class="pendente">A calcular</span> -->
+    </div>
+  
+    <hr />
+  
+    <!-- Total Final -->
+    <div class="linha-resumo total">
+      <strong>Total:</strong>
+      <!-- <strong>{{ obterTotalFinal() | currency:'BRL' }}</strong> -->
+    </div>
+  
+    <!-- Botão de Finalização -->
+    <button 
+      class="btn-finalizar" 
+      [disabled]="!freteCalculado || carrinhoService.tamanhoArray() === 0">
+      Finalizar Pedido
+    </button>
+  </div>

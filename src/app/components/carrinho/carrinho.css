@@ -1,7 +1,8 @@
 .container{
-    width: 100%;
+    width: 80%;
     height: auto;
     display: flex;
+    align-items: center;
     justify-content: space-between;
 }
 
@@ -86,4 +87,32 @@
 
 .resumo-carrinho{
     margin: 10px 10px;
+}
+
+.btn-finalizar {
+  width: 100%;
+  margin-top: 24px;
+  padding: 14px;
+  background-color: #2563eb;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.btn-finalizar:hover:not(:disabled) {
+  background-color: #1d4ed8;
+}
+
+.btn-finalizar:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.btn-finalizar:disabled {
+  background-color: #cbd5e1;
+  color: #94a3b8;
+  cursor: not-allowed;
 }

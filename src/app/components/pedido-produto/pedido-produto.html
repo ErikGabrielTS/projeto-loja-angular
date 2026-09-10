@@ -1,0 +1,36 @@
+<div id="pedido">
+  <label>ID do Pedido:</label>
+  <input type="number" [ngModel]="idpedido()" (ngModelChange)="idpedido.set($event ? +$event : null)" />
+  <button (click)="buscarPedido()">Buscar</button>
+</div>
+
+@if (erro()) {
+  <p class="erro">{{ erro() }}</p>
+}
+
+@if (pedido()) {
+  <div class="pedido-detalhe">
+    <h3>Pedido #{{ pedido()?.idpedido }} - {{ pedido()?.pessoa?.nome }}</h3>
+    <p>Status: {{ pedido()?.status_pedido }}</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Produto</th>
+          <th>Quantidade</th>
+          <th>Valor Unitário</th>
+          <th>Subtotal</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (item of pedido()?.produtos; track item.idproduto) {
+          <tr>
+            <td>{{ item.produto.descricao_produto }}</td>
+            <td>{{ item.quantidade }}</td>
+            <td>{{ item.valor_unitario | currency:'BRL' }}</td>
+            <td>{{ item.quantidade * item.valor_unitario | currency:'BRL' }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+}

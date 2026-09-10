@@ -1,44 +1,81 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal, PLATFORM_ID, inject } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { Produto } from '../types/produto';
-import { of } from 'rxjs';
+import { ItemCarrinho } from '../types/itemCarrinho';
+
+const CHAVE_STORAGE = 'carrinho';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CarrinhoService {
-  private produtos: Produto[] = []
+  private plataformaId = inject(PLATFORM_ID);
+  private isBrowser = isPlatformBrowser(this.plataformaId);
 
+  carrinho = signal<ItemCarrinho[]>(this.carregarDoStorage());
 
-  // Para puxar o tamanho da array
-  tamanhoArray(){
-    return this.produtos.length
+  private carregarDoStorage(): ItemCarrinho[] {
+    if (!this.isBrowser) {
+      return [];
+    }
+    const dados = localStorage.getItem(CHAVE_STORAGE);
+    return dados ? JSON.parse(dados) : [];
   }
 
-  //Para adicionar um produto na array 
-  adicionar(produto: Produto){
-    this.produtos.push(produto)
+  private salvarNoStorage(itens: ItemCarrinho[]) {
+    if (!this.isBrowser) {
+      return;
+    }
+    localStorage.setItem(CHAVE_STORAGE, JSON.stringify(itens));
   }
 
-  listar(){
-    return this.produtos
+  listar() {
+    return this.carrinho();
   }
 
-  // Buscando pelo id do produto 
-  buscarPorId (id: number){
-    const produto = this.produtos.find(elem => elem.idproduto == id)
+  adicionarAoCarrinho(produto: Produto) {
+    const itemExistente = this.carrinho().find(
+      (item) => item.produto.idproduto === produto.idproduto
+    );
 
-    return of(produto)
+    if (itemExistente) {
+      this.carrinho.update((itens) =>
+        itens.map((item) =>
+          item.produto.idproduto === produto.idproduto
+            ? { ...item, quantidade: item.quantidade + 1 }
+            : item
+        )
+      );
+    } else {
+      this.carrinho.update((itens) => [
+        ...itens,
+        { produto, quantidade: 1, valor_unitario: produto.valor_unitario },
+      ]);
+    }
+
+    this.salvarNoStorage(this.carrinho());
   }
 
-  editar(buscaProduto : Produto){
-    const buscaProduto = this.produtos.findIndex(elem => elem.idproduto == buscaProduto.idproduto)
-
-    if(posArray != -1)
-      this.produtos[posArray] = buscaProduto
+  alterarQuantidade(idproduto: number, quantidade: number) {
+    this.carrinho.update((itens) =>
+      itens.map((item) =>
+        item.produto.idproduto === idproduto
+          ? { ...item, quantidade }
+          : item
+      )
+    );
+    this.salvarNoStorage(this.carrinho());
   }
 
-  excluir(id : number ){
-    this.produtos = this.produtos.filter(elem => elem.idproduto !== id)
+  removerDoCarrinho(idproduto: number) {
+    this.carrinho.update((itens) =>
+      itens.filter((item) => item.produto.idproduto !== idproduto)
+    );
+    this.salvarNoStorage(this.carrinho());
   }
-  
+
+  limparCarrinho() {
+    this.carrinho.set([]);
+    this.salvarNoStorage([]);
+  }
 }

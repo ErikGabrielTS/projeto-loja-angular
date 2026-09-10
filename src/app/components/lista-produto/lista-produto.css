@@ -63,6 +63,7 @@
     flex-wrap: wrap;
 }
 
+.lnk-adicionar,
 .lnk-editar,
 .lnk-excluir {
     text-decoration: none;
@@ -73,12 +74,20 @@
     transition: 0.2s ease;
 }
 
+.lnk-adicionar{
+    cursor: pointer;
+    background: #acd6b5;
+    color: #185d18;
+}
+
 .lnk-editar {
+    cursor: pointer;
     background: #eaf4ff;
     color: #1b5fbf;
 }
 
 .lnk-excluir {
+    cursor: pointer;
     background: #fdeaea;
     color: #b42318;
 }

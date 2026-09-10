@@ -10,11 +10,11 @@ import { Produto } from '../types/produto';
 export class ProdutoService {
   constructor(private http: HttpClient) {}
 
-  /*adicionarProduto(produto: Produto): Observable<Produto> {
+  adicionarProduto(produto: Produto): Observable<Produto> {
     const urlApi = 'http://127.0.0.1:8000/produtos/';
 
     return this.http.post<Produto>(urlApi, produto);
-  }*/
+  }
 
   listarProdutos(): Observable<Produto[]> {
     const urlApi = 'http://127.0.0.1:8000/produtos/';

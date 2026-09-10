@@ -3,6 +3,11 @@ import { Produto } from '../../types/produto';
 import { CarrinhoService } from '../../services/carrinho-service';
 import { Router } from '@angular/router';
 import { FabAdd } from '../fab-add/fab-add';
+import { ItemCarrinho } from '../../types/itemCarrinho';
+import { PedidoService } from '../../services/pedido-service';
+import { PedidoCreate } from '../../types/pedido';
+import { PedidoProdutoCreate } from '../../types/pedido-produto';
+import { switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-carrinho',
@@ -11,48 +16,85 @@ import { FabAdd } from '../fab-add/fab-add';
   styleUrl: './carrinho.css',
 })
 export class Carrinho {
-  listaProdutos = signal<Produto[]>([]);
+  listaCarrinho = signal<ItemCarrinho[]>([]);
 
   constructor(
     private router: Router,
-    private http: CarrinhoService,
+    private carrinhoService: CarrinhoService,
+    private pedidoService: PedidoService,
   ) {}
 
   ngOnInit() {
-    this.listarProdutos();
+    this.listarItens();
   }
 
-  listarProdutos() {
-    this.http.listarProdutos().subscribe({
-      next: (dados) => {
-        this.listaProdutos.set([...dados].sort((a, b) => a.produto.localeCompare(b.produto)));
-      },
-      error: (msgErro) => {
-        console.log('Erro ao cadastrar o produto', msgErro);
-      },
-    });
+  listarItens() {
+    const itens = this.carrinhoService.listar();
+    this.listaCarrinho.set(
+      [...itens].sort((a, b) => a.produto.produto.localeCompare(b.produto.produto))
+    );
   }
 
-  excluirProduto(produto: Produto) {
-    if (confirm(`Deseja excluir ${produto.produto} da competição? `)) {
-      this.http.excluirProduto(produto).subscribe({
-        next: (dados) => {
-          this.listaProdutos.update((elem) =>
-            elem.filter((a) => a.idproduto !== produto.idproduto),
+  excluirProduto(item: ItemCarrinho) {
+    if (confirm(`Deseja excluir ${item.produto.produto} do carrinho? `)) {
+      this.carrinhoService.removerDoCarrinho(item.produto.idproduto);
+      this.listarItens();
+    }
+  }
+
+  alterarQuantidade(item: ItemCarrinho, event: Event) {
+    const input = event.target as HTMLInputElement;
+    const quantidade = Number(input.value);
+
+    if (quantidade >= 1 && quantidade <= item.produto.estoque) {
+       this.carrinhoService.alterarQuantidade(item.produto.idproduto, quantidade);
+       this.listarItens();
+    }
+  }
+
+  finalizarPedido() {
+    const itens = this.carrinhoService.listar();
+
+    if (itens.length === 0) {
+      alert('O carrinho está vazio.');
+      return;
+    }
+
+    const IDPESSOA_TESTE = 1; // TODO: trocar quando tiver login
+
+    const novoPedido: PedidoCreate = {
+      idpessoa: IDPESSOA_TESTE,
+      data_pedido: new Date().toISOString().split('T')[0],
+      status_pedido: 'A',
+    };
+
+    this.pedidoService
+      .criarPedido(novoPedido)
+      .pipe(
+        switchMap((pedidoCriado) => {
+          const produtosDoPedido: PedidoProdutoCreate[] = itens.map((item) => ({
+            idpedido: pedidoCriado.idpedido,
+            idproduto: item.produto.idproduto,
+            quantidade: item.quantidade,
+            valor_unitario: item.valor_unitario,
+          }));
+
+          return this.pedidoService.adicionarProdutos(
+            pedidoCriado.idpedido,
+            produtosDoPedido
           );
-
-          console.log('Produto excluído com Sucesso ', dados);
+        })
+      )
+      .subscribe({
+        next: () => {
+          console.log('Pedido finalizado com sucesso');
+          this.carrinhoService.limparCarrinho();
+          this.listarItens();
+          this.router.navigate(['/home']);
         },
         error: (msgErro) => {
-          console.log('Erro ao Excluir  o produto ', msgErro);
+          console.log('Erro ao finalizar pedido', msgErro);
         },
       });
-    }
-    this.ngOnInit();
   }
-
-  //ALTERAR DADOS
-  /*buscarProduto(idproduto: Produto){
-    this.router.navigate(['/cadastroproduto', idproduto])
-  }*/
 }

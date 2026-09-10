@@ -12,6 +12,7 @@
                 ID: {{elem.idproduto}} | Produto: {{elem.produto}} | Descrição: {{elem.descricao_produto}} | Valor unitário (R$): {{elem.valor_unitario}}
             </span>
             <span class="links-lista">
+                <a class="lnk-adicionar" (click)="adicionarProduto(elem)"> Adicionar </a>
                 <a class="lnk-editar" (click)="buscarProduto(elem)"> Editar </a>
                 <a class="lnk-excluir" (click)="excluirProduto(elem)"> Excluir </a>
             </span>

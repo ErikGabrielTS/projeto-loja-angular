@@ -1,0 +1,112 @@
+#pedido {
+    padding: 24px;
+    font-family: Arial, sans-serif;
+
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+
+    max-width: 1100px;
+    margin: 0 auto 20px;
+}
+
+#pedido label {
+    font-size: 16px;
+    color: #222;
+    font-weight: 600;
+}
+
+#pedido input {
+    border: 1px solid #d9e2d9;
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 14px;
+    width: 140px;
+}
+
+#pedido button {
+    border: none;
+    border-radius: 8px;
+    padding: 9px 18px;
+
+    font-weight: 600;
+    font-size: 14px;
+
+    background: #1f7a1f;
+    color: #fff;
+
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+#pedido button:hover {
+    background: #17601a;
+}
+
+.erro {
+    max-width: 1100px;
+    margin: 0 auto 20px;
+
+    background: #fdeaea;
+    color: #b42318;
+
+    border-radius: 8px;
+    padding: 12px 16px;
+
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.pedido-detalhe {
+    max-width: 1100px;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+}
+
+.pedido-detalhe h3 {
+    margin: 0 0 6px;
+    font-size: 24px;
+    color: #1f7a1f;
+}
+
+.pedido-detalhe p {
+    margin: 0 0 18px;
+    color: #666;
+    font-size: 14px;
+}
+
+.pedido-detalhe table {
+    width: 100%;
+    border-collapse: collapse;
+
+    background: #ffffff;
+    border: 1px solid #d9e2d9;
+    border-radius: 12px;
+    overflow: hidden;
+
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.pedido-detalhe thead {
+    background: #f4f4f4;
+}
+
+.pedido-detalhe th {
+    text-align: left;
+    padding: 14px 18px;
+    font-size: 14px;
+    color: #444;
+    font-weight: 600;
+}
+
+.pedido-detalhe td {
+    padding: 14px 18px;
+    font-size: 16px;
+    color: #222;
+    border-top: 1px solid #d9e2d9;
+}
+
+.pedido-detalhe tbody tr:hover {
+    background: #fafafa;
+}

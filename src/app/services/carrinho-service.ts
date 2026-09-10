@@ -1,63 +1,81 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal, PLATFORM_ID, inject } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { Produto } from '../types/produto';
-import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { ItemCarrinho } from '../types/itemCarrinho';
+
+const CHAVE_STORAGE = 'carrinho';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CarrinhoService {
-  constructor(private http: HttpClient) {}
+  private plataformaId = inject(PLATFORM_ID);
+  private isBrowser = isPlatformBrowser(this.plataformaId);
 
-  listarProdutos(): Observable<Produto[]> {
-    const urlApi = `http://127.0.0.1:8000/produtos`;
+  carrinho = signal<ItemCarrinho[]>(this.carregarDoStorage());
 
-    return this.http.get<Produto[]>(urlApi);
+  private carregarDoStorage(): ItemCarrinho[] {
+    if (!this.isBrowser) {
+      return [];
+    }
+    const dados = localStorage.getItem(CHAVE_STORAGE);
+    return dados ? JSON.parse(dados) : [];
   }
 
-  localizarProdutos(idproduto: number): Observable<Produto> {
-    const urlApi = `http://127.0.0.1:8000/produtos/${idproduto}`;
-
-    return this.http.get<Produto>(urlApi);
+  private salvarNoStorage(itens: ItemCarrinho[]) {
+    if (!this.isBrowser) {
+      return;
+    }
+    localStorage.setItem(CHAVE_STORAGE, JSON.stringify(itens));
   }
 
-  excluirProduto(produto: Produto): Observable<Produto> {
-    const urlApi = `http://127.0.0.1:8000/produtos/${produto.idproduto}`;
-
-    return this.http.delete<Produto>(urlApi);
+  listar() {
+    return this.carrinho();
   }
 
-  private produtos: Produto[] = [];
+  adicionarAoCarrinho(produto: Produto) {
+    const itemExistente = this.carrinho().find(
+      (item) => item.produto.idproduto === produto.idproduto
+    );
 
-  /* Para puxar o tamanho da array
-  tamanhoArray(){
-    return this.produtos.length
+    if (itemExistente) {
+      this.carrinho.update((itens) =>
+        itens.map((item) =>
+          item.produto.idproduto === produto.idproduto
+            ? { ...item, quantidade: item.quantidade + 1 }
+            : item
+        )
+      );
+    } else {
+      this.carrinho.update((itens) => [
+        ...itens,
+        { produto, quantidade: 1, valor_unitario: produto.valor_unitario },
+      ]);
+    }
+
+    this.salvarNoStorage(this.carrinho());
   }
 
-  //Para adicionar um produto na array 
-  adicionar(produto: Produto){
-    this.produtos.push(produto)
+  alterarQuantidade(idproduto: number, quantidade: number) {
+    this.carrinho.update((itens) =>
+      itens.map((item) =>
+        item.produto.idproduto === idproduto
+          ? { ...item, quantidade }
+          : item
+      )
+    );
+    this.salvarNoStorage(this.carrinho());
   }
 
-  listar(){
-    return this.produtos
+  removerDoCarrinho(idproduto: number) {
+    this.carrinho.update((itens) =>
+      itens.filter((item) => item.produto.idproduto !== idproduto)
+    );
+    this.salvarNoStorage(this.carrinho());
   }
 
-  // Buscando pelo id do produto 
-  buscarPorId (id: number){
-    const produto = this.produtos.find(elem => elem.idproduto == id)
-
-    return of(produto)
+  limparCarrinho() {
+    this.carrinho.set([]);
+    this.salvarNoStorage([]);
   }
-
-  editar(buscaProduto : Produto){
-    const buscaProduto = this.produtos.findIndex(elem => elem.idproduto == buscaProduto.idproduto)
-
-    if(posArray != -1)
-      this.produtos[posArray] = buscaProduto
-  }
-
-  excluir(id : number ){
-    this.produtos = this.produtos.filter(elem => elem.idproduto !== id)
-  }*/
 }

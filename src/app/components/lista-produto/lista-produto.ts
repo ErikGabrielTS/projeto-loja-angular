@@ -1,8 +1,10 @@
 import { Component, signal } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Produto } from '../../models/Produtos';
+
 import { ProdutoService } from '../../services/produto-service';
+import { Produto } from '../../types/produto';
+import { CarrinhoService } from '../../services/carrinho-service';
 
 @Component({
   selector: 'app-lista-produto',
@@ -15,11 +17,16 @@ export class ListaProduto {
 
   constructor(
     private router: Router,
-    private produtoService: ProdutoService
+    private produtoService: ProdutoService,
+    private carrinhoService: CarrinhoService
   ) {}
 
   ngOnInit() {
     this.listarProdutos();
+  }
+
+  adicionarProduto(produto : Produto){
+     this.carrinhoService.adicionarAoCarrinho(produto);
   }
 
   listarProdutos() {

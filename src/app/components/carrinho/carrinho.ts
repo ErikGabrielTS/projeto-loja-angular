@@ -3,13 +3,15 @@ import { CarrinhoService } from '../../services/carrinho-service';
 import { Router } from '@angular/router';
 import { ItemCarrinho } from '../../types/itemCarrinho';
 import { PedidoService } from '../../services/pedido-service';
+import { ResumoCarrinho } from '../resumo-carrinho/resumo-carrinho';
 import { PedidoCreate } from '../../types/pedido';
 import { PedidoProdutoCreate } from '../../types/pedido-produto';
 import { switchMap } from 'rxjs';
 
+
 @Component({
   selector: 'app-carrinho',
-  imports: [],
+  imports: [ResumoCarrinho],
   templateUrl: './carrinho.html',
   styleUrl: './carrinho.css',
 })

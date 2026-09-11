@@ -1,5 +1,6 @@
-<div id="carrinho">
-  <h2>Carrinho</h2>
+<div class="container">
+  <div id="carrinho">
+    <h2>Carrinho</h2>
 
   <div id="itens-carrinho">
     @for (item of listaCarrinho(); track item.produto.idproduto) {
@@ -13,27 +14,26 @@
         <div class="controle-quantidade">
           <label>Quantidade:</label>
 
-          <input
-            type="number"
-            [value]="item.quantidade"
-            min="1"
-            [max]="item.produto.unidade"
-            (change)="alterarQuantidade(item, $event)"
-          />
+          <input type="number" [value]="item.quantidade" min="1" [max]="item.produto.unidade"
+            (change)="alterarQuantidade(item, $event)" />
         </div>
 
         <span class="links-lista">
           <a class="lnk-excluir" (click)="excluirProduto(item)"> Excluir </a>
         </span>
       </div>
-    } @empty {
+
+      } @empty {
       <div class="div-item-produto">NENHUM PRODUTO NO CARRINHO</div>
-    }
+      }
+    </div>
+
+    <div class="finalizar-pedido">
+      <button type="button" class="btn-finalizar" (click)="finalizarPedido()">Finalizar Pedido</button>
+    </div>
   </div>
 
-  <div class="finalizar-pedido">
-    <button type="button" class="btn-finalizar" (click)="finalizarPedido()">
-      Finalizar Pedido
-    </button>
+  <div class="resumo-carrinho">
+    <app-resumo-carrinho></app-resumo-carrinho>
   </div>
 </div>

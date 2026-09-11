@@ -5,10 +5,11 @@ import { ProdutoService } from '../../services/produto-service';
 import { Produto } from '../../types/produto';
 import { CarrinhoService } from '../../services/carrinho-service';
 import { ToastService } from '../../services/toast-service';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-lista-produto',
-  imports: [],
+  imports: [CurrencyPipe],
   templateUrl: './lista-produto.html',
   styleUrl: './lista-produto.css',
 })

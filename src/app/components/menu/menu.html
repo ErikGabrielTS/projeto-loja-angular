@@ -1,21 +1,23 @@
 <header class="header">
-    <h1>Minha Loja</h1>
-    <div>
-        <li>
-            <a routerLink="/carrinho">
-              <img src="icons/cart.png" alt="Carrinho">
-            </a>
-         </li>
+  <div class="logo">
+    <a routerLink="/home">
+      <h1>My <strong>Store</strong></h1>
+    </a>
+  </div>
 
-        <li>
-            <a routerLink="/listaproduto" class="linha-secao">
-             Produtos criados
-            </a>
-        </li>
-        <li>
-            <a routerLink="/pedido" class="PedidoProduto">
-             Pedidos
-            </a>
-        </li>
-    </div>
+  <nav class="nav">
+    <ul>
+      <li>
+        <a routerLink="/listaproduto" class="linha-secao" class="link"> Produtos Disponíveis </a>
+      </li>
+      <li>
+        <a routerLink="/pedido" class="PedidoProduto" class="link"> Pedidos </a>
+      </li>
+      <li>
+        <a routerLink="/carrinho" class="link">
+          <img src="icons/cart.png" alt="Carrinho" />
+        </a>
+      </li>
+    </ul>
+  </nav>
 </header>

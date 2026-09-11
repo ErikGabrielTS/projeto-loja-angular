@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MontaResumoCompra } from './monta-resumo-compra';
+import { Toast } from './toast';
 
-describe('MontaResumoCompra', () => {
-  let component: MontaResumoCompra;
-  let fixture: ComponentFixture<MontaResumoCompra>;
+describe('Toast', () => {
+  let component: Toast;
+  let fixture: ComponentFixture<Toast>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MontaResumoCompra],
+      imports: [Toast],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(MontaResumoCompra);
+    fixture = TestBed.createComponent(Toast);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

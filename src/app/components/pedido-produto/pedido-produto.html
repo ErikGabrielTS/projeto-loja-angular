@@ -30,6 +30,8 @@
             <td>{{ item.quantidade * item.valor_unitario | currency:'BRL' }}</td>
           </tr>
         }
+        <td colspan="3"><strong>Total</strong></td>
+        <td><strong>{{ valorTotal() | currency:'BRL' }}</strong></td>
       </tbody>
     </table>
   </div>

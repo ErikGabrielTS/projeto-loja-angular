@@ -1,8 +1,9 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, computed } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule, CurrencyPipe } from '@angular/common';
 import { PedidoService } from '../../services/pedido-service';
 import { PedidoDetalhado } from '../../types/pedido-detalhado';
+
 
 @Component({
   selector: 'app-pedido-produto',
@@ -35,4 +36,12 @@ export class PedidoProduto {
       },
     });
   }
+
+  valorTotal = computed(() => {
+    const produtos = this.pedido()?.produtos ?? [];
+    return produtos.reduce(
+      (total, item) => total + item.quantidade * item.valor_unitario,
+      0
+    );
+  });
 }

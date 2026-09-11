@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ModalForm } from './modal-form';
+import { Toast } from './toast';
 
-describe('ModalForm', () => {
-  let component: ModalForm;
-  let fixture: ComponentFixture<ModalForm>;
+describe('Toast', () => {
+  let component: Toast;
+  let fixture: ComponentFixture<Toast>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ModalForm],
+      imports: [Toast],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ModalForm);
+    fixture = TestBed.createComponent(Toast);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

@@ -2,17 +2,13 @@
   <div id="carrinho">
     <h2>Carrinho</h2>
 
-    <div id="itens-carrinho">
-      @for (item of listaCarrinho(); track item.produto.idproduto) {
-
+  <div id="itens-carrinho">
+    @for (item of listaCarrinho(); track item.produto.idproduto) {
       <div class="item-carrinho">
-
         <span class="dados-produtos">
-          Id: {{ item.produto.idproduto }} |
-          Nome: {{ item.produto.produto }} |
-          Descrição: {{ item.produto.descricao_produto }} |
-          Valor: {{ item.produto.valor_unitario }} |
-          estoque: {{ item.produto.unidade }}
+          Id: {{ item.produto.idproduto }} | Nome: {{ item.produto.produto }} | Descrição:
+          {{ item.produto.descricao_produto }} | Valor: {{ item.produto.valor_unitario }} | estoque:
+          {{ item.produto.unidade }}
         </span>
 
         <div class="controle-quantidade">
@@ -27,7 +23,6 @@
         </span>
       </div>
 
-
       } @empty {
       <div class="div-item-produto">NENHUM PRODUTO NO CARRINHO</div>
       }
@@ -37,8 +32,6 @@
       <button type="button" class="btn-finalizar" (click)="finalizarPedido()">Finalizar Pedido</button>
     </div>
   </div>
-
-  <app-fab-add />
 
   <div class="resumo-carrinho">
     <app-resumo-carrinho></app-resumo-carrinho>

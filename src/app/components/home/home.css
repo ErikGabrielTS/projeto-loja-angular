@@ -1,0 +1,12 @@
+.logo {
+  display: flex;
+  justify-content: center;
+  border: 3px solid var(--color-secondary);
+  border-radius: var(--border-radius-md);
+  padding: var(--padding-xs);
+  width: fit-content;
+  font-size: var(--font-size-xxl);
+  font-weight: var(--font-weight-b);
+  align-items: center;
+  margin: var(--margin-xxl) auto;
+}

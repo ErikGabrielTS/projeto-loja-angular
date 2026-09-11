@@ -8,11 +8,11 @@
   --color-tertiary: #95ccdd;
   --color-quaternary: #d0e7e6;
 
-  --color-hover: 27, 74, 240;
-  --color-click: 0, 46, 208;
-  --color-icon: 124, 123, 123;
-  --color-outline: 215, 215, 215;
-  --color-divider: 237, 237, 237;
+  --color-hover: #2a5bb5;
+  --color-click: #002ed0;
+  --color-icon: #7c7b7b;
+  --color-outline: #d7d7d7;
+  --color-divider: #ededed;
 
   --bg-light: #ffffff;
   --bg-dark: 248, 248, 248;

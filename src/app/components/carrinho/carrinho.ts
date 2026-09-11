@@ -1,8 +1,6 @@
 import { Component, signal } from '@angular/core';
-import { Produto } from '../../types/produto';
 import { CarrinhoService } from '../../services/carrinho-service';
 import { Router } from '@angular/router';
-import { FabAdd } from '../fab-add/fab-add';
 import { ItemCarrinho } from '../../types/itemCarrinho';
 import { PedidoService } from '../../services/pedido-service';
 import { ResumoCarrinho } from '../resumo-carrinho/resumo-carrinho';
@@ -13,7 +11,7 @@ import { switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-carrinho',
-  imports: [FabAdd, ResumoCarrinho],
+  imports: [ResumoCarrinho],
   templateUrl: './carrinho.html',
   styleUrl: './carrinho.css',
 })
@@ -33,7 +31,7 @@ export class Carrinho {
   listarItens() {
     const itens = this.carrinhoService.listar();
     this.listaCarrinho.set(
-      [...itens].sort((a, b) => a.produto.produto.localeCompare(b.produto.produto))
+      [...itens].sort((a, b) => a.produto.produto.localeCompare(b.produto.produto)),
     );
   }
 
@@ -49,8 +47,8 @@ export class Carrinho {
     const quantidade = Number(input.value);
 
     if (quantidade >= 1 && quantidade <= item.produto.estoque) {
-       this.carrinhoService.alterarQuantidade(item.produto.idproduto, quantidade);
-       this.listarItens();
+      this.carrinhoService.alterarQuantidade(item.produto.idproduto, quantidade);
+      this.listarItens();
     }
   }
 
@@ -81,11 +79,8 @@ export class Carrinho {
             valor_unitario: item.valor_unitario,
           }));
 
-          return this.pedidoService.adicionarProdutos(
-            pedidoCriado.idpedido,
-            produtosDoPedido
-          );
-        })
+          return this.pedidoService.adicionarProdutos(pedidoCriado.idpedido, produtosDoPedido);
+        }),
       )
       .subscribe({
         next: () => {
